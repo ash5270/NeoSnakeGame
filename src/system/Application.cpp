@@ -3,7 +3,7 @@
 #include "../../include/game/SnakeObject.hpp"
 
 #include<thread>
-neo::system::Application::Application()
+neo::system::Application::Application(): _render(50,50)
 {
 
 }
@@ -45,9 +45,10 @@ void neo::system::Application::Update()
 		{
 			object.get()->Update();
 		}
-
 		_render.Clear();
 		_render.Draw(_objectManager);
+		_render.SwapBuffer();
+		_render.Rendering();
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 	}
@@ -59,5 +60,9 @@ void neo::system::Application::Stop()
 }
 
 void neo::system::Application::Release()
+{
+}
+
+void neo::system::Application::Input()
 {
 }

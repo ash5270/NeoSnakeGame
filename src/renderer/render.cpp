@@ -1,6 +1,6 @@
 #include "../../include/renderer/render.hpp"
-
-neo::renderer::Render::Render(const uint32_t& height, const uint32_t& width) 
+#include <ranges>
+neo::renderer::Render::Render(const uint32_t& height, const uint32_t& width) : _height(height),_width(width)
 {
 	_frontBuffer = new RenderBuffer(height, width);
 	_backBuffer = new RenderBuffer(height, width);
@@ -18,9 +18,13 @@ void neo::renderer::Render::Draw(object::ObjectManager& manager)
 {
 	//back buffer insert
 	_backBuffer->clear();
-	for (auto& [name, obj] : manager.GetContainder())
+	for (const auto& obj : manager.GetContainder() | std::views::values)
 	{
-		_backBuffer->GetBuffer()[obj->GetTransform().GetPosition()._y][obj->GetTransform().GetPosition()._x] = obj->GetShape();
+        auto& objTransform = obj->GetTransform();
+        if(RenderingCheck(objTransform.GetPosition()._x,objTransform.GetPosition()._y))
+        {
+            _backBuffer->GetBuffer()[obj->GetTransform().GetPosition()._y][obj->GetTransform().GetPosition()._x] = obj->GetShape();
+        }
 	}
 }
 
@@ -47,4 +51,15 @@ void neo::renderer::Render::Rendering()
 		}
 		std::cout << "\n";
 	}
+}
+
+bool neo::renderer::Render::RenderingCheck(int x, int y) {
+    if( x>=0 && y>=0)
+    {
+        if(y<_height && x<_width)
+        {
+            return true;
+        }
+    }
+    return false;
 }

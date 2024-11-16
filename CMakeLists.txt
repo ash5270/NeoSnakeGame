@@ -10,4 +10,5 @@ file(GLOB ObjectCPPS "./src/object/*.cpp")
 
 include_directories("./include")
 
-add_executable(NeoSnakeGame main.cpp ${RenderCPPS} ${ObjectCPPS} ${SystemCPPS} ${HEADERS})
+add_executable(NeoSnakeGame main.cpp ${RenderCPPS} ${ObjectCPPS} ${SystemCPPS} ${HEADERS}
+        include/system/LockQueue.h)

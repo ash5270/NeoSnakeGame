@@ -1,6 +1,5 @@
 #pragma once
 #include <iostream>
-#include <stdlib.h>
 #include <vector>
 #include "object/ObjectManager.hpp"
 #include "object/GameObject.hpp"
@@ -20,8 +19,15 @@ namespace neo::renderer
 		void Clear();
 		void Rendering();
 
+    public:
+        bool RenderingCheck(int x,int y);
+
+
 	private:
 		RenderBuffer* _frontBuffer;
 		RenderBuffer* _backBuffer;
+
+        uint32_t _height;
+        uint32_t _width;
 	};
 }

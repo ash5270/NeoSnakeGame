@@ -1,9 +1,11 @@
 #include "../../include/system/Application.hpp"
 #include "../../include/object/IObject.hpp"
 #include "../../include/game/SnakeObject.hpp"
+#include "../../include/game/TileMap.hpp"
+#include "../../include/game/AppleObject.hpp"
 
 #include<thread>
-neo::system::Application::Application(): _render(10,10)
+neo::system::Application::Application(): _render(15,40)
 {
 
 }
@@ -15,8 +17,10 @@ neo::system::Application::~Application()
 
 bool neo::system::Application::Init()
 {
-	_objectManager.RegisterObject("player", std::make_shared<neo::game::SnakeObject>());
-	const auto& container = _objectManager.GetContainder();
+    GetObjectManager().RegisterObject("player", std::make_shared<neo::game::SnakeObject>());
+    GetObjectManager().RegisterObject("TileMap",std::make_shared<neo::game::TileMap>());
+    GetObjectManager().RegisterObject("apple_1",std::make_shared<neo::game::AppleObject>());
+	const auto& container = GetObjectManager().GetContainder();
 	for (const auto& [name, object] : container)
 	{
 		object.get()->Init();
@@ -27,7 +31,7 @@ bool neo::system::Application::Init()
 
 void neo::system::Application::Start()
 {
-	const auto& container = _objectManager.GetContainder();
+	const auto& container = GetObjectManager().GetContainder();
 	for (const auto& [name, object] : container)
 	{
 		object.get()->Start();
@@ -39,18 +43,21 @@ void neo::system::Application::Update()
 	while (true)
 	{
         InputSystem::Update();
-
-
-
-		const auto& container = _objectManager.GetContainder();
+		const auto& container = GetObjectManager().GetContainder();
 		for (const auto& [name, object] : container)
 		{
 			object.get()->Update();
 		}
 		_render.Clear();
-		_render.Draw(_objectManager);
+		_render.Draw();
 		_render.SwapBuffer();
 		_render.Rendering();
+
+        for (const auto& [name, object] : container)
+        {
+            object.get()->LastUpdate();
+        }
+
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	}
 }

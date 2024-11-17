@@ -8,16 +8,11 @@ struct termios neo::system::InputSystem::_oldT = {};
 struct termios neo::system::InputSystem::_newT = {};
 int neo::system::InputSystem::_peekChar = -1;
 
-
 void neo::system::InputSystem::Update() {
-    if (_kbhit() == 0) {
+    if (_kbhit()) {
         char input = _getchar();
         _putch(input);
         _lastInput=input;
-    }
-    else
-    {
-        _lastInput =0;
     }
     std::cout << "last : " << _lastInput << " ";
 }
@@ -102,6 +97,10 @@ int neo::system::InputSystem::_putch(int c) {
     putchar(c);
     fflush(stdout);
     return c;
+}
+
+void neo::system::InputSystem::FlushKey() {
+    _lastInput =0;
 }
 
 

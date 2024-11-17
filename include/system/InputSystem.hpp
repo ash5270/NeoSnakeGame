@@ -17,6 +17,7 @@ namespace neo::system
         static void Release();
         static void Update();
         static char GetKey();
+        static void FlushKey();
     private:
         static void InputUpdate();
         static char GetInput();

@@ -15,13 +15,12 @@ namespace neo::renderer
 
 	public:
 		void SwapBuffer();
-		void Draw(object::ObjectManager& manager);
+		void Draw();
 		void Clear();
 		void Rendering();
 
     public:
         bool RenderingCheck(int x,int y);
-
 
 	private:
 		RenderBuffer* _frontBuffer;

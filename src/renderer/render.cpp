@@ -14,16 +14,19 @@ void neo::renderer::Render::SwapBuffer()
 }
 
 
-void neo::renderer::Render::Draw(object::ObjectManager& manager)
+void neo::renderer::Render::Draw()
 {
 	//back buffer insert
 	_backBuffer->clear();
-	for (const auto& obj : manager.GetContainder() | std::views::values)
+	for (const auto& obj : GetObjectManager().GetContainder() | std::views::values)
 	{
-        auto& objTransform = obj->GetTransform();
-        if(RenderingCheck(objTransform.GetPosition()._x,objTransform.GetPosition()._y))
+        if(obj->IsActive() == true)
         {
-            _backBuffer->GetBuffer()[obj->GetTransform().GetPosition()._y][obj->GetTransform().GetPosition()._x] = obj->GetShape();
+            auto& objTransform = obj->GetTransform();
+            if(RenderingCheck(objTransform.GetPosition()._x,objTransform.GetPosition()._y))
+            {
+                _backBuffer->GetBuffer()[obj->GetTransform().GetPosition()._y][obj->GetTransform().GetPosition()._x] = obj->GetShape();
+            }
         }
 	}
 }
@@ -40,14 +43,7 @@ void neo::renderer::Render::Rendering()
 	{
 		for (int x = 0; x < _frontBuffer->GetBuffer()[0].size(); x++)
 		{
-			if (y == 0 || x == 0)
-				std::cout << "#";
-			else if (y + 1 == _frontBuffer->GetBuffer().size())
-				std::cout << "#";
-			else if (x + 1 == _frontBuffer->GetBuffer()[0].size())
-				std::cout << "#";
-			else
-				std::cout << _frontBuffer->GetBuffer()[y][x];
+            std::cout << _frontBuffer->GetBuffer()[y][x];
 		}
 		std::cout << "\n";
 	}

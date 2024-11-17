@@ -17,7 +17,6 @@ namespace neo::system
 		void Stop();
 		void Release();
 	private:
-		object::ObjectManager _objectManager;
 		renderer::Render _render;
 	};
 }

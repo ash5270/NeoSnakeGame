@@ -2,13 +2,21 @@
 #include<unordered_map>
 #include<memory>
 #include<string>
+
+#define GetObjectManager() neo::object::ObjectManager::GetInstance()
+
 namespace neo::object
 {
 	class ObjectManager
 	{
 	public:
 		using ObjectPtr = std::shared_ptr <class GameObject>;
-	public:
+    public:
+        static ObjectManager& GetInstance(){
+            static ObjectManager _instance;
+            return _instance;
+        }
+    private:
 		ObjectManager();
 		~ObjectManager();
 	public:
